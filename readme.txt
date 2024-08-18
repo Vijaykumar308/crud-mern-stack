@@ -7,4 +7,4 @@
 
 # setup Backend
  - npm init
- - 
+ - npm i nodemon dotenv mongoose express  | required to work with backend;

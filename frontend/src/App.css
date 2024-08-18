@@ -1,8 +1,13 @@
 body {
-  background-color: #1e293b; /* Dark navy blue */
+  background-color: #1e293b; 
+  color: #fff;
 }
 .form-container {
-  background-color: #0f172a; /* Slightly darker blue */
+  background-color: #0f172a; 
   border-radius: 8px;
   padding: 2rem;
+}
+
+.form-container input, textarea {
+  color: black;
 }
