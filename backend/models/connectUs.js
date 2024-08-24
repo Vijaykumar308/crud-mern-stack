@@ -4,21 +4,28 @@ const contactUsSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: 1
+        // minlength: 1
     },
     email: {
         type: String,
         required: true,
-        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ // Basic email format validation
+        // match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ // Basic email format validation
+    },
+    password: {
+        type: String,
+        required: true,
+        // minlength: 6
     }, 
     message: {
         type: String,
         required: true,
-        minlength: 10
+        // minlength: 10
     },  
 },
 {
     "timestamps": true // Optional: adds createdAt and updatedAt timestamps
 })
 
-const contactUs = mongoose.model('connectUs', contactUsSchema);
+const ContactUs = mongoose.model('connectUs', contactUsSchema);
+
+export default ContactUs;

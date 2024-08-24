@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-
+import axios from "axios";
 function Form() {
     const [formData, setFormData] = useState({});
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
+        const response = await axios.post("http://localhost:5000/create", formData); 
+        console.log(response); 
     }
 
     return (
