@@ -4,6 +4,7 @@ function Form() {
     const [formData, setFormData] = useState({});
 
     const onSubmit = async (e) => {
+        console.log(formData);
         e.preventDefault();
         console.log(formData);
         const response = await axios.post("http://localhost:5000/create", formData); 

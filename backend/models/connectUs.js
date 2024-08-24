@@ -20,7 +20,15 @@ const contactUsSchema = mongoose.Schema({
         type: String,
         required: true,
         // minlength: 10
-    },  
+    },
+    isAcknowledge:{
+        type: Boolean,
+        required: true
+    },
+    gender:{
+        type: String,
+        required: [true, 'Gender is required']
+    }  
 },
 {
     "timestamps": true // Optional: adds createdAt and updatedAt timestamps

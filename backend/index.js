@@ -16,6 +16,16 @@ app.get('/', (req, res) => {
     res.send('Hello world');
 })
 
+app.get('/index', async (req, res) => {
+    const {id} = req.params;
+
+    const data = await ContactUs.find({});
+    res.status(200).json({
+        "status": 200,
+        "data": data
+    });
+})
+
 app.post('/create', async (req, res) => {
     const {name, email, message} = req.body;
     
@@ -34,9 +44,9 @@ app.post('/create', async (req, res) => {
 })
 
 app.listen(PORT, async () => {
-    try{
+    try {
         await connectDB();
     }
-    catch(err) {console.log(err);}
+    catch(err) {console.log(err); }
     console.log(`App is running on port ${PORT}`);
 })
