@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import profile from "../assets/profile.png";
 
 function Listview() {
     const [data, setData] = useState([]);
@@ -31,19 +32,23 @@ function Listview() {
                         {
                             data.map((item, index) => {
                                 return <>
-                                    <div key={index}>John Doe</div>
-                                    <div key={index}>john@example.com</div>
-                                    <div key={index}>Hello World</div>
-                                    <div key={index} className="flex items-center justify-center">
-                                        <img src="photo.jpg" alt="Photo" className="w-10 h-10 rounded-full object-cover" />
+                                    <div key={index}>{item.name}</div>
+                                    <div key={index}>{item.email}</div>
+                                    <div key={index}>{item.message}</div>
+                                    <div key={index} className="flex items-center">
+                                        {/* <img src="https://toppng.com/uploads/preview/pikachu-logo-115510579622mch5qulg6.png" alt="Photo" className="w-10 h-10 rounded-full object-cover" /> */}
+                                        <img src={profile} alt="Photo" className="w-10 h-10 rounded-full object-cover" />
                                     </div>
-                                    <div key={index}>Male</div>
-                                    <div key={index}>Yes</div>
-                                    <div key={index}>2024-08-24</div>
-                                    <div key={index}>2024-08-24</div>
-                                    <div key={index*1} className="flex gap-5">
-                                        <button key={index} className="bg-gray-600 text-gray-200 px-3 py-1 rounded hover:bg-gray-500">Edit</button>
-                                        <button key={index*2}className="bg-red-600 text-gray-200 px-3 py-1 rounded hover:bg-red-500">Delete</button>
+                                    <div key={index}>{item.gender}</div>
+                                    <div key={index}>{item?.isAcknowledge?.toString().toUpperCase()}</div>
+                                    <div key={index}>{item.createdAt}</div>
+                                    <div key={index}>{item.modifiedAt}</div>
+                                    <div key={index*1}>
+                                        <form action={`action/${item._id}`} className="flex gap-5">
+                                            <button key={index} className="bg-gray-600 text-gray-200 px-3 py-1 rounded hover:bg-gray-500" value="edit">Edit</button>
+                                            
+                                            <button key={index*2}className="bg-red-600 text-gray-200 px-3 py-1 rounded hover:bg-red-500" value="delete">Delete</button>
+                                        </form>
                                     </div>
                                 </>
                             })
