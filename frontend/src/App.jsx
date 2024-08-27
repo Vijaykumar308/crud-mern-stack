@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import Form from './components/Form'
 import Listview from './components/Listview'
-
+import EditForm from "./components/EditForm";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 function App() {
   const [isOpen, setIsOpen] = useState(true);
   const toggleClick = () => {
@@ -10,15 +11,13 @@ function App() {
   }
   return (
     <>
-    <div className='bg-yellow-800 h-16'>
-      <div className='' onClick={toggleClick}> Switch </div>
-    </div>
-
-    {
-      isOpen ? <Listview /> : <Form />
-    } 
-      
-      
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Listview />}/> 
+          <Route path='/contact-us' element={<Form />}/> 
+          <Route path='/edit/:id' element={<EditForm />}/> 
+        </Routes>
+      </BrowserRouter>      
     </>
   )
 }

@@ -1,12 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios";
-function Form() {
+import { useParams } from 'react-router-dom';
+
+function EditForm() {
     const [formData, setFormData] = useState({});
+    const [oldData, setOldData] = useState([]);
+
+    const urlParams = useParams();
 
     const onSubmit = async (e) => {
         e.preventDefault();
         await axios.post("http://localhost:5000/create", formData); 
     }
+
+    const getsingleContact = async(id) => {
+        await axios.get(`http://localhost:5000/contact/${urlParams.id}`)
+        .then((res) => {
+            setOldData(res.data.data);
+            setFormData(res.data.data)
+        });
+    }
+
+    useEffect(() => {
+        getsingleContact();
+    }, []);
 
     return (
         <div className='flex items-center justify-center min-h-screen'>
@@ -22,6 +39,7 @@ function Form() {
                                 name="name"
                                 className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
+                                value={formData?.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             />
                         </div>
@@ -35,6 +53,7 @@ function Form() {
                                 className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                value={formData?.email}
                             />
                         </div>
                     </div>
@@ -73,6 +92,7 @@ function Form() {
                                         id="male"
                                         name="option"
                                         value="male"
+                                        checked={formData.gender === "male"}
                                         className="form-radio text-blue-500 focus:ring-blue-500"
                                         onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                                     />
@@ -84,6 +104,7 @@ function Form() {
                                         id="female"
                                         name="option"
                                         value="female"
+                                        checked={formData.gender === "female"}
                                         className="form-radio text-blue-500 focus:ring-blue-500"
                                         onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                                     />
@@ -95,6 +116,7 @@ function Form() {
                                         id="other"
                                         name="option"
                                         value="other"
+                                        checked={formData.gender === "other"}
                                         className="form-radio text-blue-500 focus:ring-blue-500"
                                         onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                                     />
@@ -110,6 +132,7 @@ function Form() {
                                 type="checkbox"
                                 className="form-checkbox text-blue-500"
                                 onChange={(e) => setFormData({ ...formData, isAcknowledge: e.target.checked })}
+                                checked={formData.isAcknowledge}
                             />
                             <span className="ml-2 text-white">
                                 By checking this box, I acknowledge that you have read and agree to our Privacy Policy and Terms of Service
@@ -121,8 +144,8 @@ function Form() {
                     <div className="flex items-center justify-between">
                         <button 
                             type="submit" 
-                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >Submit</button>
+                            className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >Update</button>
                     </div>
                 </form>
             </div>
@@ -130,4 +153,4 @@ function Form() {
     )
 }
 
-export default Form
+export default EditForm;

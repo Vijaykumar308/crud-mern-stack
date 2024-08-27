@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import profile from "../assets/profile.png";
+import { Link } from 'react-router-dom';
+import uniqid from "uniqid";
 
 function Listview() {
     const [data, setData] = useState([]);
@@ -11,6 +13,18 @@ function Listview() {
             setData(response.data.data);
         });
     }, []);
+
+    const convertTimeStampToDateTime = (isoString) => {
+        const date = new Date(isoString);
+
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based, so +1
+        const day = ('0' + date.getDate()).slice(-2);
+
+        const formattedDateTime = `${year}-${month}-${day}`;
+        return formattedDateTime;
+    }
+
   return (
    <>
    <div className='bg-gray-900 text-gray-100"'>
@@ -30,25 +44,28 @@ function Listview() {
                 <div className="divide-y divide-gray-700">
                     <div className="grid grid-cols-9 gap-5 text-gray-400 p-4">
                         {
-                            data.map((item, index) => {
+                            data.map((item) => {
                                 return <>
-                                    <div key={index}>{item.name}</div>
-                                    <div key={index}>{item.email}</div>
-                                    <div key={index}>{item.message}</div>
-                                    <div key={index} className="flex items-center">
+                                    <div key={uniqid()}>{item.name}</div>
+                                    <div key={uniqid()}>{item.email}</div>
+                                    <div key={uniqid()}>{item.message}</div>
+                                    <div key={uniqid()} className="flex items-center">
                                         {/* <img src="https://toppng.com/uploads/preview/pikachu-logo-115510579622mch5qulg6.png" alt="Photo" className="w-10 h-10 rounded-full object-cover" /> */}
                                         <img src={profile} alt="Photo" className="w-10 h-10 rounded-full object-cover" />
                                     </div>
-                                    <div key={index}>{item.gender}</div>
-                                    <div key={index}>{item?.isAcknowledge?.toString().toUpperCase()}</div>
-                                    <div key={index}>{item.createdAt}</div>
-                                    <div key={index}>{item.modifiedAt}</div>
-                                    <div key={index*1}>
-                                        <form action={`action/${item._id}`} className="flex gap-5">
-                                            <button key={index} className="bg-gray-600 text-gray-200 px-3 py-1 rounded hover:bg-gray-500" value="edit">Edit</button>
-                                            
-                                            <button key={index*2}className="bg-red-600 text-gray-200 px-3 py-1 rounded hover:bg-red-500" value="delete">Delete</button>
-                                        </form>
+                                    <div key={uniqid()}>{item.gender}</div>
+                                    <div key={uniqid()}>{item?.isAcknowledge?.toString().toUpperCase()}</div>
+                                    <div key={uniqid()}>{convertTimeStampToDateTime(item.createdAt)}</div>
+                                    <div key={uniqid()}>{convertTimeStampToDateTime(item.updatedAt)}</div>
+
+                                    <div key={uniqid()} className="flex gap-5">
+                                        <Link to={`/edit/${item._id}`}>
+                                            <button key={uniqid()} className="bg-gray-600 text-gray-200 px-3 py-1 rounded hover:bg-gray-500" value="edit">Edit</button>
+                                        </Link>
+
+                                        <Link to={`/delete/${item._id}`}>
+                                            <button key={uniqid()}className="bg-red-600 text-gray-200 px-3 py-1 rounded hover:bg-red-500" value="delete">Delete</button>
+                                        </Link>
                                     </div>
                                 </>
                             })
