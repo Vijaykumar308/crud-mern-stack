@@ -11,11 +11,6 @@ const contactUsSchema = mongoose.Schema({
         required: true,
         // match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ // Basic email format validation
     },
-    password: {
-        type: String,
-        required: true,
-        // minlength: 6
-    }, 
     message: {
         type: String,
         required: true,

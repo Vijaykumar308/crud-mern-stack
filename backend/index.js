@@ -68,6 +68,25 @@ app.put('/update/:id', async (req, res) => {
     }
 })
 
+app.delete('/delete/:id', async(req, res) => {
+    const id = req.params.id;
+    const result = await ContactUs.findByIdAndDelete(id);
+    const remainsData = await ContactUs.find({});
+    if(result) {
+        res.status(200).json({
+            'status':200,
+            'message':"Item Deleted Successfully",
+            'data':remainsData
+        })
+    }
+    else {
+        res.status(400).json({
+            'status':400,
+            'message':"Failed to Deleted Item"
+        })
+    }
+})
+
 app.listen(PORT, async () => {
     try {
         await connectDB();

@@ -71,7 +71,7 @@ function Listview() {
                                         <Link to={`/edit/${item._id}`}>
                                             <button key={uniqid()} className="bg-gray-600 text-gray-200 px-3 py-1 rounded hover:bg-gray-500" value="edit">Edit</button>
                                         </Link>
-                                        { areYouSure && <AreYouSureAlert closeDialog={setAreYouSure} pkId={deletedItem}/>  }
+                                        { areYouSure && <AreYouSureAlert closeDialog={setAreYouSure} pkId={deletedItem} setData={setData}/>  }
                                         <button key={uniqid()} title={item._id} onClick={() => handleDeletButtonClicked(item._id)} className="bg-red-600 text-gray-200 px-3 py-1 rounded hover:bg-red-500" value="delete">Delete</button>
                                     </div>
                                 </>

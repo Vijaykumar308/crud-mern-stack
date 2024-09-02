@@ -1,8 +1,13 @@
+import axios from 'axios'
 import React from 'react'
 
-function AreYouSureAlert({closeDialog, pkId}) {
-    const handleDelete = (pkId) => {
-        console.log('delete it..',pkId);
+function AreYouSureAlert({closeDialog, pkId, setData}) {
+
+    const handleDelete = async(pkId) => {
+       const responseOnDelete = await axios.delete(`http://localhost:5000/delete/${pkId}`, {id:pkId});
+       console.log(responseOnDelete);
+       setData(responseOnDelete.data.data);
+       closeDialog(false);
     }
     
     return (
