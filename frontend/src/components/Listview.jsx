@@ -3,9 +3,18 @@ import React, { useEffect, useState } from 'react';
 import profile from "../assets/profile.png";
 import { Link } from 'react-router-dom';
 import uniqid from "uniqid";
+import AreYouSureAlert from './AreYouSureAlert';
 
 function Listview() {
     const [data, setData] = useState([]);
+    const [areYouSure, setAreYouSure] = useState(false);
+    const [deletedItem, setDeletedItem] = useState(null);
+
+
+    const handleDeletButtonClicked = (id) => {
+        setDeletedItem(id);
+        setAreYouSure(true);
+    }
 
     useEffect(() => {
         axios.get("http://localhost:5000/index")
@@ -27,6 +36,7 @@ function Listview() {
 
   return (
    <>
+   {/* <AreYouSureAlert /> */}
    <div className='bg-gray-900 text-gray-100"'>
         <div className="container mx-auto p-6">
             <div className="bg-gray-800 rounded-lg shadow-lg">
@@ -50,7 +60,6 @@ function Listview() {
                                     <div key={uniqid()}>{item.email}</div>
                                     <div key={uniqid()}>{item.message}</div>
                                     <div key={uniqid()} className="flex items-center">
-                                        {/* <img src="https://toppng.com/uploads/preview/pikachu-logo-115510579622mch5qulg6.png" alt="Photo" className="w-10 h-10 rounded-full object-cover" /> */}
                                         <img src={profile} alt="Photo" className="w-10 h-10 rounded-full object-cover" />
                                     </div>
                                     <div key={uniqid()}>{item.gender}</div>
@@ -62,10 +71,8 @@ function Listview() {
                                         <Link to={`/edit/${item._id}`}>
                                             <button key={uniqid()} className="bg-gray-600 text-gray-200 px-3 py-1 rounded hover:bg-gray-500" value="edit">Edit</button>
                                         </Link>
-
-                                        <Link to={`/delete/${item._id}`}>
-                                            <button key={uniqid()}className="bg-red-600 text-gray-200 px-3 py-1 rounded hover:bg-red-500" value="delete">Delete</button>
-                                        </Link>
+                                        { areYouSure && <AreYouSureAlert closeDialog={setAreYouSure} pkId={deletedItem}/>  }
+                                        <button key={uniqid()} title={item._id} onClick={() => handleDeletButtonClicked(item._id)} className="bg-red-600 text-gray-200 px-3 py-1 rounded hover:bg-red-500" value="delete">Delete</button>
                                     </div>
                                 </>
                             })

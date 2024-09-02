@@ -17,8 +17,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/index', async (req, res) => {
-    const {id} = req.params;
-
     const data = await ContactUs.find({});
     res.status(200).json({
         "status": 200,
@@ -35,11 +33,38 @@ app.post('/create', async (req, res) => {
 
     const item = new ContactUs(req.body);
     try {
-        const isSave = await item.save();
+        await item.save();
         res.send(req.body);
     }
     catch (err) {
         res.send(err);
+    }
+})
+
+app.get('/contact/:id', async(req,res) => {
+    const record = await ContactUs.findById(req?.params?.id).select("-password");
+    res.status(200).json({"status":200, "data": record});
+});
+
+app.put('/update/:id', async (req, res) => {
+    const {name, email, message} = req.body;
+    const id = req.params;
+    console.log('id is:', id);
+    
+    if(!name || !email || !message) {
+        res.status(400).json("Invalid Json Body");
+    }
+    
+    try {
+        const item = await ContactUs.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        if (!item) return res.status(404).json({ error: 'Item not found' });
+        res.status(200).json(item);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 })
 

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function EditForm() {
     const [formData, setFormData] = useState({});
     const [oldData, setOldData] = useState([]);
+    const navigator = useNavigate();
 
     const urlParams = useParams();
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post("http://localhost:5000/create", formData); 
+        await axios.put("http://localhost:5000/update/"+urlParams.id, formData); 
+        navigator('/');
     }
 
     const getsingleContact = async(id) => {
